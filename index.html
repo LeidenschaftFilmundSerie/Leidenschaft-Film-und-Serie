@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leidenschaft Film und Serie</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+</head>
+<body>
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="logo" onclick="showPage('home');return false">
+      <img src="logo.jpg" alt="Leidenschaft Film und Serie" class="logo-img"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <span class="logo-fallback">Leidenschaft Film und Serie</span>
+    </a>
+    <div class="nav-links">
+      <a href="#" onclick="showPage('home');return false"      data-page="home"      class="nav-link active">Bibliothek</a>
+      <a href="#" onclick="showPage('toprated');return false"  data-page="toprated"  class="nav-link">Top Rated</a>
+      <a href="#" onclick="showPage('favorites');return false" data-page="favorites" class="nav-link">Favoriten</a>
+      <a href="#" onclick="showPage('stats');return false"     data-page="stats"     class="nav-link">Statistiken</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn-ghost" onclick="openRandom()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/><path d="m19 15 3 3-3 3"/><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"/><path d="M22 6h-5.9c-1.3 0-2.5.6-3.3 1.7l-.5.8"/><path d="m19 3 3 3-3 3"/></svg>
+        <span class="hide-mobile">Zufällig</span>
+      </button>
+      <div class="menu-wrap">
+        <button class="btn-ghost" onclick="toggleMenu()">⋯</button>
+        <div class="dropdown" id="dropdown">
+          <button onclick="exportData();closeMenu()">⬇ Daten exportieren</button>
+          <label>⬆ Daten importieren<input type="file" accept=".json" onchange="importData(event);closeMenu()"></label>
+          <hr>
+          <button onclick="toggleLang();closeMenu()" id="langBtn">🌐 Switch to English</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div id="page-home" class="page active">
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg class="ico-search" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="searchInput" class="search-input" placeholder="Titel, Regisseur, Schauspieler …" oninput="applyFilters()">
+      <button id="searchClear" class="search-clear" onclick="clearSearch()" style="display:none">×</button>
+    </div>
+    <div class="filter-row">
+      <select id="fType"   class="sel" onchange="applyFilters()">
+        <option value="">Alle Typen</option>
+        <option value="film">Filme</option>
+        <option value="series">Serien</option>
+        <option value="concert">Konzerte</option>
+      </select>
+      <select id="fGenre"  class="sel" onchange="applyFilters()"><option value="">Alle Genres</option></select>
+      <select id="fDecade" class="sel" onchange="applyFilters()"><option value="">Alle Jahrzehnte</option></select>
+      <label class="chk-label"><input type="checkbox" id="fFav" onchange="applyFilters()"> <span>Nur Favoriten</span></label>
+      <select id="sortBy"  class="sel" onchange="applyFilters()">
+        <option value="added-desc">Zuletzt hinzugefügt</option>
+        <option value="title-asc">Titel A–Z</option>
+        <option value="title-desc">Titel Z–A</option>
+        <option value="year-desc">Jahr ↓</option>
+        <option value="year-asc">Jahr ↑</option>
+        <option value="rating-desc">Bewertung ↓</option>
+        <option value="rating-asc">Bewertung ↑</option>
+      </select>
+    </div>
+  </div>
+  <div id="count" class="count"></div>
+  <div id="grid" class="grid"></div>
+  <div id="loadMoreWrap" style="display:none;text-align:center;padding:28px">
+    <button class="btn-ghost" onclick="loadMore()">Mehr laden</button>
+  </div>
+</div>
+
+<div id="page-toprated" class="page">
+  <div class="page-header"><h1>Top Rated</h1><p id="trSub"></p></div>
+  <div id="tr-grid" class="grid"></div>
+</div>
+
+<div id="page-favorites" class="page">
+  <div class="page-header"><h1>Favoriten</h1><p id="favSub"></p></div>
+  <div id="fav-grid" class="grid"></div>
+  <div id="fav-empty" class="empty" style="display:none"></div>
+</div>
+
+<div id="page-stats" class="page">
+  <div class="page-header"><h1>Statistiken</h1><p>Deine Sammlung auf einen Blick</p></div>
+  <div id="stats" class="stats-grid"></div>
+</div>
+
+<div id="modal" class="modal" onclick="closeModal(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModalBtn()">×</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<footer class="site-footer">
+  <p>Filmdaten &amp; Poster: <a href="https://www.themoviedb.org" target="_blank">The Movie Database (TMDb)</a></p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
