@@ -1,0 +1,13 @@
+
+/* TRANSLATION */
+.desc-wrap{position:relative}
+.translate-btn{background:none;border:1px solid var(--b);border-radius:var(--r);color:var(--ts);font-family:var(--fb);font-size:10px;padding:3px 9px;cursor:pointer;margin-top:6px;transition:color var(--tr),border-color var(--tr)}
+.translate-btn:hover{color:var(--a);border-color:var(--a)}
+.translate-btn:disabled{opacity:0.5;cursor:default}
+
+/* ORIGINAL TITLE */
+.modal-orig-title{color:var(--ts);font-size:12px;font-style:italic;margin-bottom:10px;margin-top:-4px}
+
+/* FOOTER */
+.site-footer{text-align:center;padding:24px;font-size:11px;color:var(--tm);border-top:1px solid var(--b);margin-top:40px}
+.site-footer a{color:var(--ts);text-decoration:none}.site-footer a:hover{color:var(--a)}
